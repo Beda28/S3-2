@@ -21,10 +21,11 @@ def main():
                 print("영상 읽기가 끝났습니다.")
                 break 
 
-            mask = back.apply(frame)
+            raw, clean = back.apply(frame)
 
             cv2.imshow("Video", frame)
-            cv2.imshow("Foreground mask", mask)
+            cv2.imshow("Raw mask", raw)
+            cv2.imshow("Clean mask", clean)
 
             key = cv2.waitKey(delay) & 0xFF
             if key == ord("q") or key == 27: break

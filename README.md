@@ -5,6 +5,7 @@
 - 영상 로딩 및 첫 프레임 출력
 - 영상 재생
 - 영상 배경 제거
+- 영상 뒤처리
 
 # 3. 데이터셋 출처
 - 데이터셋: Intel IoT DevKit, Sample Videos for Running Inference
