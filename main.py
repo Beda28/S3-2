@@ -5,18 +5,24 @@ import cv2
 from src.video_io import open_video
 
 def main():
-    video_path = Path(__file__).resolve().parent / "data" / "original.mp4"
-    cap = open_video(video_path)
+    video = Path(__file__).resolve().parent / "data" / "original.mp4"
+    cap   = open_video(video)
 
     try:
-        success, frame = cap.read()
+        fps   = cap.get(cv2.CAP_PROP_FPS)
+        delay = max(1, round(1000 / fps)) if fps > 0 else 33
 
-        if not success or frame is None: raise RuntimeError("첫 프레임을 읽지 못했습니다.")
+        while True:
+            success, frame = cap.read()
 
-        print(f"프레임 크기: {frame.shape}")
-        
-        cv2.imshow("First frame", frame)
-        cv2.waitKey(0)
+            if not success or frame is None: 
+                print("영상 읽기가 끝났습니다.")
+                break 
+
+            cv2.imshow("Video", frame)
+
+            key = cv2.waitKey(delay) & 0xFF
+            if key == ord("q") or key == 27: break
    
     finally:
         cap.release()

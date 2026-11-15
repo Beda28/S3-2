@@ -3,3 +3,9 @@
 
 # 2. 진행 과정
 - 영상 로딩 및 첫 프레임 출력
+- 영상 재생
+
+# 3. 데이터셋 출처
+- 데이터셋: Intel IoT DevKit, Sample Videos for Running Inference
+- 출처: https://github.com/intel-iot-devkit/sample-videos
+- 라이선스: CC BY 4.0
