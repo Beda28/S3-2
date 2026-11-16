@@ -6,6 +6,8 @@
 - 영상 재생
 - 영상 배경 제거
 - 영상 뒤처리
+- 객체 탐지 및 객체 추적 박스 생성
+- 객체 추적 박스에 id 등록
 
 # 3. 데이터셋 출처
 - 데이터셋: Intel IoT DevKit, Sample Videos for Running Inference

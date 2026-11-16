@@ -5,11 +5,13 @@ import cv2
 from src.video_io   import open_video
 from src.background import BackgroundSubtractor
 from src.detect     import find
+from src.track      import Tracker
 
 def main():
     video = Path(__file__).resolve().parent / "data" / "original.mp4"
     cap   = open_video(video)
     back  = BackgroundSubtractor()
+    track = Tracker()
 
     try:
         fps   = cap.get(cv2.CAP_PROP_FPS)
@@ -23,14 +25,21 @@ def main():
                 break 
 
             raw, clean = back.apply(frame)
-            boxes = find(clean, min=150)
-            view  = frame.copy()
+            boxes  = find(clean, min=150)
+            tracks = track.update(boxes)
+            view   = frame.copy()
 
-            for x, y, w, h in boxes:
+            for item in tracks:
+                x, y, w, h = item.box
                 cv2.rectangle(
                     view, (x, y), 
                     (x + w, y + h), 
                     (0, 255, 0), 2)
+                cv2.putText(
+                    view, f"ID {item.id}", 
+                    (x, max(20, y - 8)),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.6, (0, 255, 0), 2)
 
             cv2.putText(
                 view, f"Regions: {len(boxes)}", (10, 30), 
