@@ -4,6 +4,7 @@ import cv2
 
 from src.video_io   import open_video
 from src.background import BackgroundSubtractor
+from src.detect     import find
 
 def main():
     video = Path(__file__).resolve().parent / "data" / "original.mp4"
@@ -22,13 +23,26 @@ def main():
                 break 
 
             raw, clean = back.apply(frame)
+            boxes = find(clean, min=150)
+            view  = frame.copy()
 
-            cv2.imshow("Video", frame)
-            cv2.imshow("Raw mask", raw)
-            cv2.imshow("Clean mask", clean)
+            for x, y, w, h in boxes:
+                cv2.rectangle(
+                    view, (x, y), 
+                    (x + w, y + h), 
+                    (0, 255, 0), 2)
+
+            cv2.putText(
+                view, f"Regions: {len(boxes)}", (10, 30), 
+                cv2.FONT_HERSHEY_SIMPLEX, 
+                0.7, (0, 255, 0), 2)
+
+            cv2.imshow("Video"      , view)
+            cv2.imshow("Raw mask"   , raw)
+            cv2.imshow("Clean mask" , clean)
 
             key = cv2.waitKey(delay) & 0xFF
-            if key == ord("q") or key == 27: break
+            if key in (ord("q"), 27): break
    
     finally:
         cap.release()
