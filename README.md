@@ -9,6 +9,7 @@
 - 객체 탐지 및 객체 추적 박스 생성
 - 객체 추적 박스에 id 등록
 - 박스 이동경로 표시
+- 일시정지, 저장 구현
 
 # 3. 데이터셋 출처
 - 데이터셋: Intel IoT DevKit, Sample Videos for Running Inference

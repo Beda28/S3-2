@@ -1,4 +1,5 @@
-from pathlib import Path
+from pathlib  import Path
+from datetime import datetime
 
 import cv2
 
@@ -14,3 +15,13 @@ def open_video(path: str | Path) -> cv2.VideoCapture:
         raise RuntimeError(f"영상을 열 수 없습니다: {path}")
 
     return cap
+
+def save(frame):
+    folder = Path(__file__).resolve().parent.parent / "results" / "snapshots"
+    folder.mkdir(parents=True, exist_ok=True)
+
+    name = datetime.now().strftime("%Y%m%d_%H%M%S_%f.png")
+    path = folder / name
+
+    if not cv2.imwrite(str(path), frame): raise RuntimeError(f"이미지 저장에 실패했습니다: {path}")
+    return path
