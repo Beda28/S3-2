@@ -6,6 +6,7 @@ from src.video_io   import open_video
 from src.background import BackgroundSubtractor
 from src.detect     import find
 from src.track      import Tracker
+from src.draw       import draw
 
 def main():
     video = Path(__file__).resolve().parent / "data" / "original.mp4"
@@ -27,24 +28,7 @@ def main():
             raw, clean = back.apply(frame)
             boxes  = find(clean, min=150)
             tracks = track.update(boxes)
-            view   = frame.copy()
-
-            for item in tracks:
-                x, y, w, h = item.box
-                cv2.rectangle(
-                    view, (x, y), 
-                    (x + w, y + h), 
-                    (0, 255, 0), 2)
-                cv2.putText(
-                    view, f"ID {item.id}", 
-                    (x, max(20, y - 8)),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.6, (0, 255, 0), 2)
-
-            cv2.putText(
-                view, f"Regions: {len(boxes)}", (10, 30), 
-                cv2.FONT_HERSHEY_SIMPLEX, 
-                0.7, (0, 255, 0), 2)
+            view   = draw(frame, tracks)
 
             cv2.imshow("Video"      , view)
             cv2.imshow("Raw mask"   , raw)

@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from collections import deque
+from dataclasses import dataclass, field
 from math        import hypot
 
 def center(box):
@@ -10,6 +11,7 @@ class Track:
     id  : int
     box : tuple
     miss: int = 0
+    path: deque = field(default_factory=lambda: deque(maxlen=40))
 
 class Tracker:
     def __init__(self, distance = 60, keep = 10):
@@ -39,6 +41,8 @@ class Tracker:
             track = self.tracks[uid]
             track.box  = boxes[i]
             track.miss = 0
+            track.path.append(center(track.box))
+
             used_ids.add(uid)
             used_box.add(i)
 
@@ -53,8 +57,11 @@ class Tracker:
         for i, box in enumerate(boxes):
             if i in used_box: continue
 
-            uid = self.next_id
-            self.tracks[uid] = Track(uid, box)
+            uid   = self.next_id
+            track = Track(uid, box)
+            track.path.append(center(box))
+            
+            self.tracks[uid] = track
             self.next_id    += 1
 
         return [t for t in self.tracks.values() if t.miss == 0]
