@@ -11,8 +11,12 @@
 - 박스 이동경로 표시
 - 일시정지, 저장 구현
 - FPS 표시
+- 타겟 검출
 
-# 3. 데이터셋 출처
-- 데이터셋: Intel IoT DevKit, Sample Videos for Running Inference
-- 출처: https://github.com/intel-iot-devkit/sample-videos
-- 라이선스: CC BY 4.0
+## 3. 데이터셋 출처
+
+- 데이터셋: Pexels, *People Walking On The Street*
+- 제작자: Marc Van den Broeck
+- 출처: https://www.pexels.com/video/people-walking-on-the-street-3552510/
+- 라이선스: [Pexels License](https://www.pexels.com/license/)
+- 활용 목적: OpenCV 기반 객체 검출 및 추적 알고리즘의 성능 검증

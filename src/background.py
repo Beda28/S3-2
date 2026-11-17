@@ -27,8 +27,7 @@ class BackgroundSubtractor:
 
     def apply(self, frame: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         self.count += 1
-        rate = 0.01 if self.count <= 300 else 0.0001
-
+        rate  = 0.01 if self.count <= 300 else 0.0001
         frame = self.adjust(frame)
         raw   = self.model.apply(frame, learningRate=rate)
 

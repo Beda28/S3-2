@@ -16,6 +16,15 @@ def open_video(path: str | Path) -> cv2.VideoCapture:
 
     return cap
 
+def load(path):
+    path  = Path(path)
+    if not path.is_file(): raise FileNotFoundError(f"이미지 파일이 없습니다: {path}")
+    
+    image = cv2.imread(str(path))
+    if image is None: raise RuntimeError(f"이미지를 열 수 없습니다: {path}")
+    
+    return image
+
 def save(frame):
     folder = Path(__file__).resolve().parent.parent / "results" / "snapshots"
     folder.mkdir(parents=True, exist_ok=True)

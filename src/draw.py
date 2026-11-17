@@ -1,6 +1,14 @@
 import cv2
 import numpy as np
 
+def windows():
+    names = ["Video", "Raw mask", "Clean mask"]
+
+    for i, name in enumerate(names):
+        cv2.namedWindow(name, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(name, 854, 480)
+        cv2.moveWindow(name, (i % 2) * 960, (i // 2) * 516)
+
 def draw(frame, tracks):
     view  = frame.copy()
     color = (0, 255, 0)
@@ -30,3 +38,17 @@ def info(view, rate):
     cv2.putText(
         view, f"Processing FPS: {rate:.1f}", (10, 60),
         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+
+def mark(view, result):
+    color = (0, 255, 0) if result.found else (0, 255, 255)
+
+    lines = [
+        f"ORB: target {result.target} / frame {result.features}",
+        f"Matches: {result.good} ({result.rate:.1f}%)",
+        "TARGET DETECTED" if result.found else "TARGET NOT DETECTED"
+    ]
+
+    for i, text in enumerate(lines):
+        cv2.putText(
+            view, text, (10, 90 + i * 30),
+            cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
