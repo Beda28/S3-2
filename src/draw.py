@@ -25,3 +25,8 @@ def draw(frame, tracks):
         cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
 
     return view
+
+def info(view, rate):
+    cv2.putText(
+        view, f"Processing FPS: {rate:.1f}", (10, 60),
+        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
